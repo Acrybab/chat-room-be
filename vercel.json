@@ -1,17 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
-  "functionFailoverRegions": ["iad1", "sfo1"],
-  "functions": {
-    "src/main.vercel.ts": {
-      "runtime": "nodejs18.x"
-    }
-  },
+  "builds": [{ "src": "src/main.vercel.ts", "use": "@vercel/node" }],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "src/main.vercel.ts",
-      "allowMethods": ["GET", "POST", "PUT", "DELETE"]
+      "dest": "src/main.vercel.ts"
     }
   ]
 }
