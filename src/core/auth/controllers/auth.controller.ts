@@ -19,7 +19,7 @@ import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  @Post('signup')
+  @Post('sign-up')
   async signUp(@Body() body: SignUpDto) {
     return await this.authService.signUp(body);
   }
@@ -41,7 +41,7 @@ export class AuthController {
       secure: true,
       sameSite: 'none',
     });
-    res.redirect('http://localhost:5173/');
+    res.redirect('https://chat-room-trong-khang.vercel.app/');
   }
 
   @Post('signin')
