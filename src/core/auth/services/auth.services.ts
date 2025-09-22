@@ -63,18 +63,27 @@ export class AuthService {
     if (!user) {
       throw new Error('Invalid email or password');
     }
+
     const isValidPassword = await isTheSamePassword(password, user.password);
     if (!isValidPassword) {
       throw new Error('Invalid email or password');
     }
+
+    // ✅ update DB isOnline = true
+    user.isOnline = true;
+    await this.userRepository.save(user);
+
+    // ✅ emit sự kiện realtime
     const payload = { sub: user.id, email: user.email };
     const accessToken = await this.jwtService.signAsync(payload);
+
     return {
       data: {
         message: 'User signed in successfully',
         user: {
           id: user.id,
           email: user.email,
+          isOnline: true,
         },
         accessToken,
       },

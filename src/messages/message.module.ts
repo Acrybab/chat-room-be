@@ -8,6 +8,7 @@ import { MessageController } from './controllers/message.controller';
 import { ChatRoomService } from 'src/chat-rooms/services/chat-room.service';
 import { ChatRoom } from 'src/chat-rooms/entities/chat-room.entity';
 import { ChatRoomMember } from 'src/chat-room-members/entities/chat-room-member-entity';
+// import { ChatGateway } from 'src/chat-rooms/gateways/chatGateWay';
 
 @Module({
   imports: [

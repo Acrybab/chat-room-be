@@ -10,10 +10,15 @@ import { CommonModule } from 'src/common/common.module';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { UserService } from '../users/services/user.services';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { ChatRoomService } from 'src/chat-rooms/services/chat-room.service';
+import { ChatRoom } from 'src/chat-rooms/entities/chat-room.entity';
+import { ChatRoomMember } from 'src/chat-room-members/entities/chat-room-member-entity';
+import { MessageService } from 'src/messages/services/message.service';
+import { Message } from 'src/messages/entities/message.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, ChatRoom, ChatRoomMember, Message]),
     forwardRef(() => UsersModule),
     JwtModule.register({
       global: true,
@@ -24,6 +29,8 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   ],
   controllers: [AuthController],
   providers: [
+    MessageService,
+    ChatRoomService,
     AuthService,
     MailService,
     GoogleStrategy,

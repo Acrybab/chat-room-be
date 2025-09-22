@@ -9,13 +9,13 @@ import { User } from 'src/core/users/entities/user.entities';
 import { ChatGateway } from './gateways/chatGateWay';
 import { MessageService } from 'src/messages/services/message.service';
 import { Message } from 'src/messages/entities/message.entity';
-
 @Module({
   imports: [
     TypeOrmModule.forFeature([ChatRoom, ChatRoomMember, User, Message]),
   ],
+
   controllers: [ChatRoomController],
   providers: [ChatRoomService, UserService, ChatGateway, MessageService],
-  exports: [ChatRoomService],
+  exports: [ChatRoomService, ChatGateway],
 })
 export class ChatRoomModule {}

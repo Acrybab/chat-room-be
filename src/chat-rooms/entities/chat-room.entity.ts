@@ -1,6 +1,14 @@
 import { ChatRoomMember } from 'src/chat-room-members/entities/chat-room-member-entity';
+import { User } from 'src/core/users/entities/user.entities';
 import { Message } from 'src/messages/entities/message.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('chat_rooms')
 export class ChatRoom {
@@ -15,12 +23,18 @@ export class ChatRoom {
   category: string;
   @Column({ nullable: true })
   description: string;
+
   @Column()
   isActive: boolean;
   @Column()
   createdAt: Date;
   @Column()
   updatedAt: Date;
+
+  @ManyToOne(() => User, (user) => user.ownedRooms, { eager: true })
+  @JoinColumn({ name: 'ownerId' })
+  owner: User;
+
   @OneToMany(() => Message, (message) => message.chatRoom)
   messages: Message[];
 

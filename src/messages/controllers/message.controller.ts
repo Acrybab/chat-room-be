@@ -79,21 +79,27 @@ export class MessageController {
     const userId = req.user.sub;
     const fileUrl = `${file.filename.trim()}`;
     // const fileUrl = `http://localhost:3000/uploads/${file.originalname}`;
-    return this.messageService.createFileMessage(
+    const message = await this.messageService.createFileMessage(
       fileUrl,
       userId as number,
       roomId,
     );
+    // this.chateGateway.server.to(`room-${roomId}`).emit('newMessage', {
+    //   id: message.id,
+    //   roomId: message.chatRoom.id,
+    //   user: {
+    //     id: message.user.id,
+    //     email: message.user.email,
+    //   },
+    //   fileUrl: message.fileUrl,
+    //   createdAt: message.createdAt,
+    // });
+    return message;
   }
   @Get('photo/:photoName')
   getBookPhoto(@Param('photoName') photoName: string, @Res() res) {
-    // return this.bookService.getBookPhoto(photoName).then((fileBuffer) => {
-    //   res.setHeader('Content-Type', 'image/jpeg'); // Hoặc loại MIME phù hợp với ảnh của bạn
-    //   res.send(fileBuffer);
-    // });
-    // console.log(process.cwd(), 'cwd');
     const filePath = path.join(
-      'D:\\chat-room-be\\chat-room\\uploads',
+      'D:\\CHAT-ROOM-BE-1\\chat-room\\uploads',
       photoName,
     );
     if (!fs.existsSync(filePath)) {

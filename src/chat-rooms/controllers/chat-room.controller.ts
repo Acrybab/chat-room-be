@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
@@ -7,6 +8,7 @@ import {
   Get,
   Param,
   Post,
+  Req,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -19,13 +21,17 @@ export class ChatRoomController {
   constructor(private readonly chatRoomService: ChatRoomService) {}
 
   @Post()
-  createChatRoom(@Body() createChatRoomDto: CreateChatRoomDto) {
-    return this.chatRoomService.createChatRoom(createChatRoomDto);
+  @UseGuards(JwtAuthGuard)
+  createChatRoom(@Body() createChatRoomDto: CreateChatRoomDto, @Req() req) {
+    const userId = req.user.sub;
+    return this.chatRoomService.createChatRoom(userId, createChatRoomDto);
   }
 
   @Get()
-  getAllChatRooms() {
-    return this.chatRoomService.getAllChatRooms();
+  @UseGuards(JwtAuthGuard)
+  getAllChatRooms(@Req() req) {
+    const userId = req.user.sub;
+    return this.chatRoomService.getAllChatRooms(userId);
   }
   @Delete(':chatRoomId')
   deleteChatRoom(@Param('chatRoomId') chatRoomId: number) {
@@ -39,7 +45,6 @@ export class ChatRoomController {
   @Post(':chatRoomId/join')
   @UseGuards(JwtAuthGuard)
   joinChatRoom(@Param('chatRoomId') chatRoomId: number, @Request() request) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const userId = request.user.sub;
     return this.chatRoomService.joinChatRoom(userId, chatRoomId);
   }

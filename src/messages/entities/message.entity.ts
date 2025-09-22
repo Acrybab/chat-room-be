@@ -1,10 +1,12 @@
 import { ChatRoom } from 'src/chat-rooms/entities/chat-room.entity';
 import { User } from 'src/core/users/entities/user.entities';
+import { MessageRead } from 'src/message-read/entities/message_read.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -15,6 +17,8 @@ export class Message {
   id: number;
   @Column()
   isOwn: boolean;
+  @Column({ nullable: true })
+  type: string;
   @Column()
   content: string;
   @Column({ nullable: true })
@@ -23,6 +27,8 @@ export class Message {
   createdAt: Date;
   @UpdateDateColumn()
   updatedAt: Date;
+  @OneToMany(() => MessageRead, (read) => read.message)
+  reads: MessageRead[];
 
   @ManyToOne(() => User, (user) => user.messages, { eager: true })
   user: User;
