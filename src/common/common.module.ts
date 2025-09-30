@@ -6,12 +6,12 @@ import { MailerModule } from '@nestjs-modules/mailer';
   imports: [
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.sendgrid.net',
-        port: 465,
+        host: process.env.SENDGRID_HOST,
+        port: process.env.SENDGRID_PORT,
         secure: true,
         auth: {
-          user: 'apikey',
-          pass: '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',
+          user: process.env.SENDGRID_USER,
+          pass: process.env.SENDGRID_PASS,
         },
       },
       defaults: {
