@@ -12,6 +12,7 @@ import { ChatRoomMember } from './chat-room-members/entities/chat-room-member-en
 import { ChatRoomModule } from './chat-rooms/chatRoom.module';
 import { MessageModule } from './messages/message.module';
 import { MessageRead } from './message-read/entities/message_read.entity';
+import { TwilioModule } from './chat-rooms/twilio.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { MessageRead } from './message-read/entities/message_read.entity';
     CoreModule,
     ChatRoomModule,
     MessageModule,
+    TwilioModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -6,16 +6,16 @@ import { MailerModule } from '@nestjs-modules/mailer';
   imports: [
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
+        host: 'smtp.sendgrid.net',
+        port: 465,
+        secure: true,
         auth: {
-          user: 'trongkhangtn08032003@gmail.com',
-          pass: 'ganw wmve rkjy hysy', // dùng App Password của Gmail
+          user: 'apikey',
+          pass: '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',
         },
       },
       defaults: {
-        from: '"Chat Room" <trongkhangtn08032003@gmail.com>',
+        from: `"No Reply" <${process.env.MAIL_FROM}>`,
       },
     }),
   ],
