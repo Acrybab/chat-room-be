@@ -8,12 +8,12 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
+  @Column({ nullable: true, default: '' })
   email: string;
 
   @Column({ nullable: true })
   isOnline: boolean;
-  @Column()
+  @Column({ nullable: true, default: '' })
   password: string;
   @OneToMany(() => MessageRead, (read) => read.user)
   readMessages: MessageRead[];

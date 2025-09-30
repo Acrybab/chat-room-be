@@ -12,6 +12,7 @@ import { ChatRoomMember } from './chat-room-members/entities/chat-room-member-en
 import { ChatRoomModule } from './chat-rooms/chatRoom.module';
 import { MessageModule } from './messages/message.module';
 import { MessageRead } from './message-read/entities/message_read.entity';
+import { TwilioModule } from './chat-rooms/twilio.module';
 
 @Module({
   imports: [
@@ -20,29 +21,18 @@ import { MessageRead } from './message-read/entities/message_read.entity';
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      ...(process.env.NODE_ENV === 'production'
-        ? {
-            // Production - Railway
-            url: process.env.MYSQL_URL,
-            ssl: { rejectUnauthorized: false },
-          }
-        : {
-            // Development - Local
-            host: process.env.DB_HOST || 'localhost',
-            port: process.env.DB_PORT ? +process.env.DB_PORT : 3306,
-            username: process.env.DB_USERNAME || 'root',
-            password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME || 'chatroom',
-            ssl: false,
-          }),
+      url: process.env.DATABASE_URL, // URL Railway
+      ssl: { rejectUnauthorized: false }, // bắt buộc trên Railway
       entities: [User, ChatRoom, Message, ChatRoomMember, MessageRead],
-      synchronize: process.env.NODE_ENV !== 'production',
-      logging: process.env.NODE_ENV !== 'production',
+      synchronize: true, // production không sync tự động
       autoLoadEntities: true,
+      logging: false,
     }),
+
     CoreModule,
     ChatRoomModule,
     MessageModule,
+    TwilioModule,
   ],
   controllers: [AppController],
   providers: [AppService],
